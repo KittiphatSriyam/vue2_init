@@ -1,6 +1,5 @@
 const path = require('path')
 const webpack = require('webpack')
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
@@ -51,7 +50,9 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     noInfo: true,
-    overlay: true
+    overlay: true  ,
+    contentBase: "public",
+    port: 9500
   },
   performance: {
     hints: false
@@ -59,32 +60,15 @@ module.exports = {
   devtool: '#eval-source-map'
 }
 
-const templateFileMapper = [
-  {
-    template: "./public/CreateMeasureList.html",
-    file: "CreateMeasureList.html",
-  },
-];
-
-const htmlPlugins = () => {
-  return templateFileMapper.map((entry) => {
-    return new HtmlWebpackPlugin({
-      template: entry.template,
-      filename: entry.file,
-    });
-  });
-};
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
-  // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([    
     new CleanWebpackPlugin(),
-    htmlPlugins(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"',
-        HOST: '"http://kcetweb:4500"'
+        HOST: '"http://kcetweb"'
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
@@ -95,6 +79,16 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    })
+  ])
+}else{
+
+  module.exports.plugins = (module.exports.plugins || []).concat([    
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"production"',
+        HOST: '"http://localhost:9999"'
+      }
     })
   ])
 }
