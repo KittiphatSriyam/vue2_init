@@ -1,0 +1,1 @@
+export const getPathName = (location) => location.replace(/[\/]/ig ,'').replace(/.html/ig ,'')

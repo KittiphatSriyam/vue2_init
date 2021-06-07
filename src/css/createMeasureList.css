@@ -1,0 +1,13 @@
+.timeline-circle {
+    display: inline-block;
+    border-radius: 50%;  
+    width: 15px;
+    height: 15px;
+}
+
+.bg-active {
+    background: #BADA55;
+}
+.bg-disable {
+    background: #9e9e9e;  
+}
